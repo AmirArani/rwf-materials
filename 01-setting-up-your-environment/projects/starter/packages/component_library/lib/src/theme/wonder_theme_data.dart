@@ -79,9 +79,54 @@ class DarkWonderThemeData extends WonderThemeData {
   @override
   ThemeData get materialThemeData => ThemeData(
         brightness: Brightness.dark,
-        toggleableActiveColor: Colors.white,
         primarySwatch: Colors.white.toMaterialColor(),
         dividerTheme: _dividerThemeData,
+        checkboxTheme: CheckboxThemeData(
+          fillColor:
+              MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return Colors.white;
+            }
+            return null;
+          }),
+        ),
+        radioTheme: RadioThemeData(
+          fillColor:
+              MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return Colors.white;
+            }
+            return null;
+          }),
+        ),
+        switchTheme: SwitchThemeData(
+          thumbColor:
+              MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return Colors.white;
+            }
+            return null;
+          }),
+          trackColor:
+              MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return Colors.white;
+            }
+            return null;
+          }),
+        ),
       );
 
   @override

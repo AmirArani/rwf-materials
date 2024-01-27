@@ -58,10 +58,9 @@ class QuoteDetailsView extends StatelessWidget {
           final quoteUpdateError =
               state is QuoteDetailsSuccess ? state.quoteUpdateError : null;
           if (quoteUpdateError != null) {
-            final snackBar =
-                quoteUpdateError is UserAuthenticationRequiredException
-                    ? const AuthenticationRequiredErrorSnackBar()
-                    : const GenericErrorSnackBar();
+            final snackBar = quoteUpdateError is UserAuthenticationRequiredException
+                ? const AuthenticationRequiredErrorSnackBar()
+                : const GenericErrorSnackBar();
 
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
@@ -75,8 +74,7 @@ class QuoteDetailsView extends StatelessWidget {
         builder: (context, state) {
           return WillPopScope(
             onWillPop: () async {
-              final displayedQuote =
-                  state is QuoteDetailsSuccess ? state.quote : null;
+              final displayedQuote = state is QuoteDetailsSuccess ? state.quote : null;
               Navigator.of(context).pop(displayedQuote);
               return false;
             },
@@ -114,8 +112,7 @@ class QuoteDetailsView extends StatelessWidget {
   }
 }
 
-class _QuoteActionsAppBar extends StatelessWidget
-    implements PreferredSizeWidget {
+class _QuoteActionsAppBar extends StatelessWidget implements PreferredSizeWidget {
   const _QuoteActionsAppBar({
     required this.quote,
     this.shareableLinkGenerator,
