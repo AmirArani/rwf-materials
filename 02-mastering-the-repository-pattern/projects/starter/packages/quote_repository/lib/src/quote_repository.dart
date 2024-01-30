@@ -6,8 +6,15 @@ import 'package:quote_repository/src/mappers/mappers.dart';
 import 'package:quote_repository/src/quote_local_storage.dart';
 
 class QuoteRepository {
+  QuoteRepository({
+    required KeyValueStorage keyValueStorage,
+    required this.remoteApi,
+    @visibleForTesting QuoteLocalStorage? localStorage,
+  }) : _localStorage =
+            localStorage ?? QuoteLocalStorage(keyValueStorage: keyValueStorage);
 
-  // TODO: Add constructor and data sources properties.
+  final FavQsApi remoteApi;
+  final QuoteLocalStorage _localStorage;
 
   Stream<QuoteListPage> getQuoteListPage(
     int pageNumber, {
@@ -31,44 +38,39 @@ class QuoteRepository {
   }
 
   Future<Quote> favoriteQuote(int id) async {
-    final updatedCacheQuote =
-        await remoteApi.favoriteQuote(id).toCacheUpdateFuture(
-              _localStorage,
-              shouldInvalidateFavoritesCache: true,
-            );
+    final updatedCacheQuote = await remoteApi.favoriteQuote(id).toCacheUpdateFuture(
+          _localStorage,
+          shouldInvalidateFavoritesCache: true,
+        );
     return updatedCacheQuote.toDomainModel();
   }
 
   Future<Quote> unfavoriteQuote(int id) async {
-    final updatedCacheQuote =
-        await remoteApi.unfavoriteQuote(id).toCacheUpdateFuture(
-              _localStorage,
-              shouldInvalidateFavoritesCache: true,
-            );
+    final updatedCacheQuote = await remoteApi.unfavoriteQuote(id).toCacheUpdateFuture(
+          _localStorage,
+          shouldInvalidateFavoritesCache: true,
+        );
     return updatedCacheQuote.toDomainModel();
   }
 
   Future<Quote> upvoteQuote(int id) async {
-    final updatedCacheQuote =
-        await remoteApi.upvoteQuote(id).toCacheUpdateFuture(
-              _localStorage,
-            );
+    final updatedCacheQuote = await remoteApi.upvoteQuote(id).toCacheUpdateFuture(
+          _localStorage,
+        );
     return updatedCacheQuote.toDomainModel();
   }
 
   Future<Quote> downvoteQuote(int id) async {
-    final updatedCacheQuote =
-        await remoteApi.downvoteQuote(id).toCacheUpdateFuture(
-              _localStorage,
-            );
+    final updatedCacheQuote = await remoteApi.downvoteQuote(id).toCacheUpdateFuture(
+          _localStorage,
+        );
     return updatedCacheQuote.toDomainModel();
   }
 
   Future<Quote> unvoteQuote(int id) async {
-    final updatedCacheQuote =
-        await remoteApi.unvoteQuote(id).toCacheUpdateFuture(
-              _localStorage,
-            );
+    final updatedCacheQuote = await remoteApi.unvoteQuote(id).toCacheUpdateFuture(
+          _localStorage,
+        );
     return updatedCacheQuote.toDomainModel();
   }
 
@@ -91,8 +93,7 @@ extension on Future<QuoteRM> {
             updatedCacheQuote,
             !shouldInvalidateFavoritesCache,
           ),
-          if (shouldInvalidateFavoritesCache)
-            localStorage.clearQuoteListPageList(true),
+          if (shouldInvalidateFavoritesCache) localStorage.clearQuoteListPageList(true),
         ],
       );
       return updatedCacheQuote;
